@@ -1,0 +1,100 @@
+# Note on Table VI and Reproducibility
+
+This repository contains the full simulation pipeline used to generate all numerical results reported in the manuscript *"The Corbata Numerical System: A Geometric Reindexing of the Integers Revealing Induced Arithmetic Structure"* submitted to The Global Undergraduate Awards.
+
+All tables and figures in the manuscript were produced directly from the scripts provided here, using fixed parameters for key size, sampling method, preprocessing depth, and number of trials.
+
+## Note Regarding Table VI
+
+During final manuscript preparation, Table VI (Extended distributional statistics for RSA prime search attempts) was assembled as a static LaTeX table summarizing multiple independent benchmark configurations.
+
+In the PDF version of the manuscript, the block corresponding to `k = 1024` contained a duplicated set of values across two preprocessing depths (`R = 1000` and `R = 6000`). This duplication arose during the manual assembly of the LaTeX table and does **not** reflect an error in the underlying simulations or data generation.
+
+The authoritative results are the machine-generated outputs produced by the scripts in this repository. In particular, the correct benchmark data for `k = 1024, R = 6000` are reproduced below directly from the simulation output.
+
+## Corrected Machine-Generated Data for `k = 1024`, R = 6000, 5000 Trials
+
+The table below shows the correct statistics for the affected configurations, as produced directly by the simulation code.
+
+|   k  | Rows (R) | Method | Trials | Mean   | Std    | Median |  p25  |   p75   |  p99  |
+|------|----------|--------|--------|--------|--------|--------|-------|---------|-------|
+| 1024 | 6000     | A      | 5000   | 346.44 | 351.50 | 233.0  | 97.00 | 479.00 | 1637.13|
+| 1024 | 6000     | B      | 5000   | 354.54 | 343.17 | 249.0  |109.00 | 492.00 | 1557.23|
+| 1024 | 6000     | C      | 5000   | 147.09 | 142.86 | 104.0  | 45.00 | 201.00 | 693.01 |
+| 1024 | 6000     | D      | 5000   | 150.37 | 150.05 | 106.0  | 43.75 | 206.25 | 678.07 |
+
+## Impact on Results and Conclusions
+
+This duplication does **not** affect any reported trends, improvement factors, or conclusions of the paper. The performance gains of Corbata-guided sampling and the suppression of long-tailed behavior are consistently observed across multiple key sizes (`k = 768, 1024, 2048`) and across independent trial sets.
+
+All claims made in the manuscript are fully supported by reproducible code and independently verifiable simulations.
+
+## Code Output
+
+=== Corbata RSA fair benchmark ===
+Backend: sympy enabled
+
+Random seed integer, example 12345: 123456789
+Bit length k for primes p and q, example 1024 or 2048: 1024
+Number of independent trials M, example 1000 or 5000: 5000
+Miller Rabin rounds, example 24 or 32: 24
+Public exponent e, press Enter for 65537: 65537
+Use wheel small prime filter, type yes or no: yes
+
+Now choose modulus M for residue sampling
+Option 1: 2310 = 2*3*5*7*11 (classic)
+Option 2: 30030 = 2*3*5*7*11*13
+Option 3: custom integer
+Choose 1, 2, or 3: 1
+
+How many Corbata rows to analyze for residues, example 6000: 6000
+
+Building residues from Corbata
+Residue build report
+rows_used = 6000
+max_r = 6001
+total_numbers_scanned = 18003000
+total_primes_found = 1146477
+unique_primes_used = 1146477
+modulus_M = 2310
+unique_residues = 485
+Residues count = 485
+
+Heuristic expected attempts Ntrad = k ln 2 = 709.782713
+
+Method A: random odd sampling
+Trials = 5000
+Attempts mean = 346.4405 std = 351.50047 median = 233.0
+Attempts p25 = 97.0 p75 = 479.0 p90 = 808.2000000000003 p99 = 1637.1299999999999
+Time mean s = 1.35536 std = 29.485931 median = 0.516163
+
+Method B: random sampling with wheel
+Trials = 5000
+Attempts mean = 354.5385 std = 343.174124 median = 249.0
+Attempts p25 = 109.0 p75 = 492.0 p90 = 799.700000000001 p99 = 1557.2299999999998
+Time mean s = 0.73163 std = 0.584066 median = 0.556564
+
+Method C: Corbata guided residue sampling
+Trials = 5000
+Attempts mean = 147.085 std = 142.855003 median = 104.0
+Attempts p25 = 45.0 p75 = 201.0 p90 = 334.0 p99 = 693.01
+Time mean s = 1.247552 std = 24.623761 median = 0.532122
+
+Method D: Corbata guided plus wheel
+Trials = 5000
+Attempts mean = 150.3665 std = 150.054937 median = 106.0
+Attempts p25 = 43.75 p75 = 206.25 p90 = 343.0 p99 = 678.0699999999999
+Time mean s = 0.79193 std = 0.66049 median = 0.587242
+
+Efficiency eta = Ntrad divided by mean attempts
+eta A = 2.048787
+eta B = 2.001991
+eta C = 4.825663
+eta D = 4.720351
+
+Residue class fraction len(residues)/M = 0.20995671
+This indicates how much the search space is restricted before primality tests
+
+Saved report to rsa_benchmark_report.json
+Done
+
